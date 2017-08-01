@@ -5,22 +5,26 @@ migrations = os.path.join(os.getcwd(), "Migrations")
 
 
 def find_files():
-    while True:
-        for file in os.listdir(migrations):
-            if file.endswith(".sql"):
-                check_file = open(os.path.join(migrations, file))
+    files_list = (file for file in os.listdir(migrations) if file.endswith(".sql"))
+    return files_list
 
-        files_list = []
-        search_line = input("Вводи")
-        for file in os.listdir(migrations):
-            if file.endswith(".sql"):
-                check_file = open(os.path.join(migrations, file))
-                if search_line in check_file.read():
-                    files_list.append(os.path.join(migrations, file))
-                    print(os.path.join(migrations, file))
-        print(files_list)
+
+def filter_list(files_list):
+    sql_list = []
+    search_line = input("Вводи\n")
+    for file in files_list:
+        check_file = open(os.path.join(migrations, file), encoding="utf-8")
+        if search_line in check_file.read():
+            sql_list.append(os.path.join(migrations, file))
+    # new_list = sql_list
+    # for file in new_list:
+    #     check_file = open(os.path.join(migrations, file), encoding="utf-8")
+    #     if search_line in check_file.read():
+    #         sql_list.append(os.path.join(migrations, file))
+    print(sql_list)
 
 
 if __name__ == '__main__':
-    find_files()
+    while True:
+        filter_list(find_files())
 pass
